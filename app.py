@@ -50,7 +50,8 @@ def register():
 
         return jsonify({'result': result})
     else:
-         result = jsonify({"error": "Email Already Exists,Please use another one!"})
+        ##Username Already Exist.....
+         result = jsonify({'result': 1})
 
          return result
 
@@ -77,9 +78,9 @@ def login():
     return result
 
 
-def validateuser(username):
+def validateuser(email):
     c,conn = connection()
-    email = request.get_json()['email']
+   ## email = request.get_json()['email']
 
     c.execute("SELECT * from users WHERE email = '" + str(email) + "'")
     data = c.fetchone()

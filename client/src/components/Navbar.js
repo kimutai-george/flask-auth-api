@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
+import logo from './logo_final.png';
 
 class Landing extends Component {
   logOut(e) {
@@ -7,10 +8,17 @@ class Landing extends Component {
     localStorage.removeItem('usertoken')
     this.props.history.push(`/`)
   }
+  style= {
+    marginLeft:1700
+
+  }
+  home = {
+    marginLeft:-200
+  }
 
   render() {
     const loginRegLink = (
-      <ul className="navbar-nav">
+      <ul className="navbar-nav" style={this.style}>
         <li className="nav-item">
           <Link to="/login" className="nav-link">
             Login
@@ -57,10 +65,10 @@ class Landing extends Component {
           className="collapse navbar-collapse justify-content-md-center"
           id="navbarsExample10"
         >
-          <ul className="navbar-nav">
+          <ul className="navbar-nav" style = {this.home}>
             <li className="nav-item">
               <Link to="/" className="nav-link">
-                Home
+              <img src={logo} alt="Logo" />;
               </Link>
             </li>
           </ul>

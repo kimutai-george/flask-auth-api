@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
 import { register } from './UserFunctions'
+import FlashMassage from 'react-flash-message';
+
+import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "bootstrap-css-only/css/bootstrap.min.css";
+import "mdbreact/dist/css/mdb.css";
 
 class Register extends Component {
   constructor() {
@@ -9,7 +15,8 @@ class Register extends Component {
       last_name: '',
       email: '',
       password: '',
-      errors: {}
+      errors: {},
+      response:'',
     }
 
     this.onChange = this.onChange.bind(this)
@@ -21,80 +28,104 @@ class Register extends Component {
   }
   onSubmit(e) {
     e.preventDefault()
+    e.target.className += " was-validated";
 
     const newUser = {
       first_name: this.state.first_name,
       last_name: this.state.last_name,
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
+      response:this.state.response,
+
     }
+    
 
     register(newUser).then(res => {
-      this.props.history.push(`/login`)
+      
+      this.props.history.push(`/register`)
+      
     })
   }
 
+  style = {
+    marginTop:200,
+    marginLeft:250
+    }
+
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-6 mt-5 mx-auto">
-            <form noValidate onSubmit={this.onSubmit}>
-              <h1 className="h3 mb-3 font-weight-normal">Register</h1>
-              <div className="form-group">
-                <label htmlFor="name">First name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="first_name"
-                  placeholder="Enter your first name"
-                  value={this.state.first_name}
-                  onChange={this.onChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="name">Last name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="last_name"
-                  placeholder="Enter your lastname name"
-                  value={this.state.last_name}
-                  onChange={this.onChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="email">Email address</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  name="email"
-                  placeholder="Enter email"
-                  value={this.state.email}
-                  onChange={this.onChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  name="password"
-                  placeholder="Password"
-                  value={this.state.password}
-                  onChange={this.onChange}
-                />
-              </div>
-              <button
-                type="submit"
-                className="btn btn-lg btn-primary btn-block"
-              >
-                Register!
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
+     
+      <MDBContainer  style={this.style}> 
+       <MDBRow>
+        <MDBCol md="6">
+       
+          <form className="needs-validation" noValidate onSubmit={this.onSubmit}>
+            <p className="h5 text-center mb-4">Sign up</p>
+            <p>{this.state.response}</p>
+            <div className="grey-text">
+              <MDBInput
+                label="First Name"
+                icon="user"
+                name="first_name"
+                value={this.state.first_name}
+                onChange={this.onChange}
+                group
+                type="text"
+                validate
+                error="wrong"
+                success="right"
+                required
+              />
+               <MDBInput
+                label="Last Name"
+                icon="user"
+                name = "last_name"
+                value={this.state.last_name}
+                onChange={this.onChange}
+                group
+                type="text"
+                validate
+                error="wrong"
+                success="right"
+                required
+              />
+              <MDBInput
+                label="Email Address"
+                icon="envelope"
+                name="email"
+                value={this.state.email}
+                onChange={this.onChange}
+                group
+                type="email"
+                id="materialFormRegisterConfirmEx3"
+                validate
+                error="wrong"
+                success="right"
+                required
+              />
+            
+              <MDBInput
+                label="Password"
+                icon="lock"
+                name="password"
+                value={this.state.password}
+                onChange={this.onChange}
+                group
+                type="password"
+                validate
+                required
+              />
+            </div>
+            <div className="text-center">
+              <MDBBtn type="submit" color="primary">Register</MDBBtn>
+            </div>
+          </form>
+        
+        </MDBCol>
+      </MDBRow>
+    </MDBContainer>
+ 
+
     )
   }
 }

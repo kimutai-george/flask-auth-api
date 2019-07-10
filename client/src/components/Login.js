@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
 import { login } from './UserFunctions'
+import FlashMassage from 'react-flash-message';
+import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "bootstrap-css-only/css/bootstrap.min.css";
+import "mdbreact/dist/css/mdb.css";
+
 
 class Login extends Component {
   constructor() {
@@ -7,7 +13,9 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      errors: {}
+      errors: {},
+      message: {},
+      response:'',
     }
 
     this.onChange = this.onChange.bind(this)
@@ -24,53 +32,59 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password
     }
-
+   
     login(user).then(res => {
       if (!res.error) {
         this.props.history.push(`/profile`)
+       
       }
     })
   }
 
+  style = {
+    marginTop:200,
+    marginLeft:250
+    }
+
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-6 mt-5 mx-auto">
-            <form noValidate onSubmit={this.onSubmit}>
-              <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
-              <div className="form-group">
-                <label htmlFor="email">Email address</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  name="email"
-                  placeholder="Enter email"
-                  value={this.state.email}
-                  onChange={this.onChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  name="password"
-                  placeholder="Password"
-                  value={this.state.password}
-                  onChange={this.onChange}
-                />
-              </div>
-              <button
-                type="submit"
-                className="btn btn-lg btn-primary btn-block"
-              >
-                Sign in
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
+      <MDBContainer style={this.style}>
+      <MDBRow>
+        <MDBCol md="6">
+          <form noValidate onSubmit={this.onSubmit}>
+            <p className="h5 text-center mb-4">Sign in</p>
+            <div className="grey-text">
+              <MDBInput
+                label="Type your email"
+                icon="envelope"
+                name="email"
+                value={this.state.email}
+                onChange={this.onChange}
+                group
+                type="email"
+                validate
+                error="wrong"
+                success="right"
+              />
+              <MDBInput
+                label="Type your password"
+                icon="lock"
+                name="password"
+                value={this.state.password}
+                onChange={this.onChange}
+                group
+                type="password"
+                validate
+              />
+            </div>
+            <div className="text-center">
+              <MDBBtn type="submit">Login</MDBBtn>
+            </div>
+          </form>
+        </MDBCol>
+      </MDBRow>
+    </MDBContainer>
+      
     )
   }
 }
